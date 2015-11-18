@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="dhsvm" />
+		<Option makefile="makefile" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/dhsvm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<MakeCommands>
+					<Build command="$make -f $makefile" />
+					<CompileFile command="$make -f $makefile $file" />
+					<Clean command="$make -f $makefile clean" />
+					<DistClean command="$make -f $makefile distclean$target" />
+					<AskRebuildNeeded command="$make -q -f $makefile" />
+					<SilentBuild command="$make -f $makefile &gt; $(CMD_NULL)" />
+				</MakeCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/dhsvm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="AdjustStorage.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Aggregate.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="AggregateRadiation.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CRadiationBalance.cpp" />
+		<Unit filename="CRadiationBalance.h" />
+		<Unit filename="CalcAerodynamic.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcAvailableWater.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcBagnold.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcDistance.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcEffectiveKh.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcKhDry.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcKinViscosity.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcSafetyFactor.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcSatDensity.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcSnowAlbedo.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcSolar.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcTopoIndex.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcTotalWater.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcTransmissivity.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CalcWeights.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Calendar.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Calendar.h" />
+		<Unit filename="CanopyResistance.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CanopyShading.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ChannelState.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CheckOut.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CutBankGeometry.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="DHSVMChannel.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="DHSVMChannel.h" />
+		<Unit filename="DHSVMerror.h" />
+		<Unit filename="Desorption.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="DistSedDiams.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Draw.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="EvalExponentIntegral.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="EvapoTranspiration.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ExecDump.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="FileIOBin.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="FileIONetCDF.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="FinalMassBalance.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="FindValue.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="GetInit.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="GetMetData.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InArea.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitAggregated.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitArray.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitConstants.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitDump.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitFileIO.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitFineMaps.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitInterpolationWeights.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitMetMaps.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitMetSources.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitModelState.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitNetwork.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitNewMonth.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitParameters.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitSedMap.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitSedTables.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitSnowMap.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitTables.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitTerrainMaps.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitUnitHydrograph.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InitXGraphics.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="InterceptionStorage.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="IsStationLocation.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="LapseT.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="LookupTable.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MainDHSVM.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MainMWM.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MakeLocalMetData.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MassBalance.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MassEnergyBalance.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MassRelease.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MaxRoadInfiltration.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="NoEvap.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="RadiationBalance.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ReadMetRecord.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ReadRadarMap.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ReportError.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ResetAggregate.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="RootBrent.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Round.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="RouteChannelSediment.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="RouteRoad.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="RouteSubSurface.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="RouteSurface.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SatVaporPressure.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SensibleHeatFlux.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SeparateRadiation.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SizeOfNT.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SlopeAspect.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SnowInterception.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SnowMelt.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SnowPackEnergyBalance.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SoilEvaporation.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="StabilityCorrection.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="StoreModelState.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SurfaceEnergyBalance.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="UnsaturatedFlow.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="VarID.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="WaterTableDepth.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="brent.h" />
+		<Unit filename="channel.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="channel.h" />
+		<Unit filename="channel_complt.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="channel_grid.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="channel_grid.h" />
+		<Unit filename="constants.h" />
+		<Unit filename="data.h" />
+		<Unit filename="drand48.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="equal.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="errorhandler.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="errorhandler.h" />
+		<Unit filename="fifoNetCDF.h" />
+		<Unit filename="fifobin.h" />
+		<Unit filename="fileio.h" />
+		<Unit filename="functions.h" />
+		<Unit filename="getinit.h" />
+		<Unit filename="globals.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lookuptable.h" />
+		<Unit filename="massenergy.h" />
+		<Unit filename="rad.h" />
+		<Unit filename="settings.h" />
+		<Unit filename="sizeofnt.h" />
+		<Unit filename="slopeaspect.h" />
+		<Unit filename="snow.h" />
+		<Unit filename="soilmoisture.h" />
+		<Unit filename="tableio.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="tableio.h" />
+		<Unit filename="varid.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
