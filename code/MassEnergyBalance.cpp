@@ -32,6 +32,7 @@
 
 #include "CRadiationBalance.h"
 #include "CSnowInterception.h"
+#include "CSnowMelt.h"
 
 /*****************************************************************************
   Function name: MassEnergyBalance()
@@ -314,14 +315,25 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
     SnowWind = VType->USnow * LocalMet->Wind;
     SnowRa = VType->RaSnow / LocalMet->Wind;
 
-    LocalSnow->Outflow =
-      SnowMelt(y, x, Dt, 2. + Z0_SNOW, 0.f, Z0_SNOW, SnowRa, LocalMet->AirDens,
+//    LocalSnow->Outflow =
+//      SnowMelt(y, x, Dt, 2. + Z0_SNOW, 0.f, Z0_SNOW, SnowRa, LocalMet->AirDens,
+//	       LocalMet->Eact, LocalMet->Lv, SnowNetShort, SnowLongIn,
+//	       LocalMet->Press, LocalPrecip->RainFall, LocalPrecip->SnowFall,
+//	       LocalMet->Tair, LocalMet->Vpd, SnowWind,
+//	       &(LocalSnow->PackWater), &(LocalSnow->SurfWater),
+//	       &(LocalSnow->Swq), &(LocalSnow->VaporMassFlux),
+//	       &(LocalSnow->TPack), &(LocalSnow->TSurf), &MeltEnergy);
+
+     CSnowMelt * cSnowMelt = new CSnowMelt();
+     cSnowMelt->init(y, x, Dt, 2. + Z0_SNOW, 0.f, Z0_SNOW, SnowRa, LocalMet->AirDens,
 	       LocalMet->Eact, LocalMet->Lv, SnowNetShort, SnowLongIn,
 	       LocalMet->Press, LocalPrecip->RainFall, LocalPrecip->SnowFall,
 	       LocalMet->Tair, LocalMet->Vpd, SnowWind,
 	       &(LocalSnow->PackWater), &(LocalSnow->SurfWater),
 	       &(LocalSnow->Swq), &(LocalSnow->VaporMassFlux),
-	       &(LocalSnow->TPack), &(LocalSnow->TSurf), &MeltEnergy);
+	       &(LocalSnow->TPack), &(LocalSnow->TSurf), &MeltEnergy, &(LocalSnow->Outflow));
+	 cSnowMelt->execute();
+	 delete cSnowMelt;
 
     /* Rainfall was added to SurfWater of the snow pack and has to be set to zero */
 
