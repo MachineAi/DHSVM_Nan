@@ -31,6 +31,7 @@
 #include "Calendar.h"
 
 #include "CRadiationBalance.h"
+#include "CSnowInterception.h"
 
 /*****************************************************************************
   Function name: MassEnergyBalance()
@@ -238,7 +239,20 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
 
   if (VType->OverStory == TRUE &&
       (LocalPrecip->IntSnow[0] || LocalPrecip->SnowFall > 0.0)) {
-    SnowInterception(y, x, Dt, VType->Fract[0], VType->LAI[0],
+//    SnowInterception(y, x, Dt, VType->Fract[0], VType->LAI[0],
+//		     VType->MaxInt[0], VType->MaxSnowInt, VType->MDRatio,
+//		     VType->SnowIntEff, UpperRa, LocalMet->AirDens,
+//		     LocalMet->Eact, LocalMet->Lv, &LocalRad, LocalMet->Press,
+//		     LocalMet->Tair, LocalMet->Vpd, UpperWind,
+//		     &(LocalPrecip->RainFall), &(LocalPrecip->SnowFall),
+//		     &(LocalPrecip->IntRain[0]), &(LocalPrecip->IntSnow[0]),
+//		     &(LocalPrecip->TempIntStorage),
+//		     &(LocalSnow->CanopyVaporMassFlux), &(LocalVeg->Tcanopy),
+//		     &MeltEnergy, &(LocalPrecip->MomentSq), VType->Height,
+//		     VType->UnderStory, MS_Rainfall, LD_FallVelocity);
+
+    CSnowInterception * cSnowInterception = new CSnowInterception();
+    cSnowInterception->init(y, x, Dt, VType->Fract[0], VType->LAI[0],
 		     VType->MaxInt[0], VType->MaxSnowInt, VType->MDRatio,
 		     VType->SnowIntEff, UpperRa, LocalMet->AirDens,
 		     LocalMet->Eact, LocalMet->Lv, &LocalRad, LocalMet->Press,
@@ -249,6 +263,7 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
 		     &(LocalSnow->CanopyVaporMassFlux), &(LocalVeg->Tcanopy),
 		     &MeltEnergy, &(LocalPrecip->MomentSq), VType->Height,
 		     VType->UnderStory, MS_Rainfall, LD_FallVelocity);
+    delete cSnowInterception;
 
     MoistureFlux -= LocalSnow->CanopyVaporMassFlux;
 
