@@ -33,6 +33,8 @@
 #include "CRadiationBalance.h"
 #include "CSnowInterception.h"
 #include "CSnowMelt.h"
+#include "CEvapoTranspiration.h"
+#include "CUnsaturatedFlow.h"
 
 /*****************************************************************************
   Function name: MassEnergyBalance()
@@ -380,9 +382,16 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
     NetRadiation =
       LocalRad.NetShort[0] +
       LocalRad.LongIn[0] - 2 * VType->Fract[0] * LocalRad.LongOut[0];
-    EvapoTranspiration(0, Dt, LocalMet, NetRadiation, Rp, VType, SType,
+//    EvapoTranspiration(0, Dt, LocalMet, NetRadiation, Rp, VType, SType,
+//		       MoistureFlux, LocalSoil, &(LocalPrecip->IntRain[0]),
+//		       LocalEvap, LocalNetwork->Adjust, UpperRa);
+    CEvapoTranspiration* cEvapoTranspiration = new CEvapoTranspiration();
+    cEvapoTranspiration->init(0, Dt, LocalMet, NetRadiation, Rp, VType, SType,
 		       MoistureFlux, LocalSoil, &(LocalPrecip->IntRain[0]),
 		       LocalEvap, LocalNetwork->Adjust, UpperRa);
+    cEvapoTranspiration->execute();
+    delete cEvapoTranspiration;
+
     MoistureFlux += LocalEvap->EAct[0] + LocalEvap->EInt[0];
 
     if (LocalSnow->HasSnow != TRUE && VType->UnderStory == TRUE) {
@@ -564,7 +573,18 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
   /* Calculate unsaturated soil water movement, and adjust soil water
      table depth */
 
-  UnsaturatedFlow(Dt, DX, DY, Infiltration, RoadbedInfiltration,
+//  UnsaturatedFlow(Dt, DX, DY, Infiltration, RoadbedInfiltration,
+//		  LocalSoil->SatFlow, SType->NLayers,
+//		  LocalSoil->Depth, LocalNetwork->Area, VType->RootDepth,
+//		  SType->Ks, SType->PoreDist, SType->Porosity, SType->FCap,
+//		  LocalSoil->Perc, LocalNetwork->PercArea,
+//		  LocalNetwork->Adjust, LocalNetwork->CutBankZone,
+//		  LocalNetwork->BankHeight, &(LocalSoil->TableDepth),
+//		  &(LocalSoil->IExcess), LocalSoil->Moist, RoadRouteOption,
+//		  InfiltOption, &(LocalNetwork->IExcess));
+
+    CUnsaturatedFlow * cUnsaturatedFlow = new CUnsaturatedFlow();
+    cUnsaturatedFlow->init(Dt, DX, DY, Infiltration, RoadbedInfiltration,
 		  LocalSoil->SatFlow, SType->NLayers,
 		  LocalSoil->Depth, LocalNetwork->Area, VType->RootDepth,
 		  SType->Ks, SType->PoreDist, SType->Porosity, SType->FCap,
@@ -573,6 +593,8 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
 		  LocalNetwork->BankHeight, &(LocalSoil->TableDepth),
 		  &(LocalSoil->IExcess), LocalSoil->Moist, RoadRouteOption,
 		  InfiltOption, &(LocalNetwork->IExcess));
+    cUnsaturatedFlow->execute();
+    delete cUnsaturatedFlow;
 
   /* Infiltration is updated in UnsaturatedFlow and accumulated
      below */
