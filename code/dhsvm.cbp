@@ -52,8 +52,12 @@
 		</Unit>
 		<Unit filename="CEvapoTranspiration.cpp" />
 		<Unit filename="CEvapoTranspiration.h" />
+		<Unit filename="CNoSensibleHeatFlux.cpp" />
+		<Unit filename="CNoSensibleHeatFlux.h" />
 		<Unit filename="CRadiationBalance.cpp" />
 		<Unit filename="CRadiationBalance.h" />
+		<Unit filename="CSensibleHeatFlux.cpp" />
+		<Unit filename="CSensibleHeatFlux.h" />
 		<Unit filename="CSnowInterception.cpp" />
 		<Unit filename="CSnowInterception.h" />
 		<Unit filename="CSnowMelt.cpp" />

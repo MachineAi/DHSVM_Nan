@@ -35,6 +35,9 @@
 #include "CSnowMelt.h"
 #include "CEvapoTranspiration.h"
 #include "CUnsaturatedFlow.h"
+#include "CSensibleHeatFlux.h"
+
+#include "CNoSensibleHeatFlux.h"
 
 /*****************************************************************************
   Function name: MassEnergyBalance()
@@ -148,6 +151,8 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
 
   /* calculate the radiation balance for the ground/snow surface and the
      vegetation layers above that surface */
+  /* related files: settings.h data.h Calendar.h  DHSVMerror.h massenergy.h constants.h
+  */
 //  RadiationBalance(Options, HeatFluxOption, CanopyRadAttOption, SineSolarAltitude,
 //	       LocalMet->VICSin, LocalMet->Sin, LocalMet->SinBeam, LocalMet->SinDiffuse,
 //		   LocalMet->Lin, LocalMet->Tair, LocalVeg->Tcanopy,
@@ -175,7 +180,8 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
   /* Leaf drip impact*/
   /* Find corresponding fall velocity for overstory and understory heights
      by weighting scheme */
-
+  /* related files: independent module
+  */
   if (VType->OverStory){
     /* staring at 1 assumes the overstory height > 0.5 m */
     for (i = 1; i <= 17; i++ ) {
@@ -212,6 +218,8 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
 
   /* RainFall impact */
   /* 3600 is conversion factor (number of seconds per hour) */
+  /* related files: independant
+  */
   if (LocalPrecip->RainFall > 0.) {
     RainfallIntensity = LocalPrecip->RainFall * (1./MMTOM) * (3600./Dt);
 
@@ -237,6 +245,17 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
   /* calculate the amount of interception storage, and the amount of
      throughfall.  Of course this only needs to be done if there is
      vegetation present. */
+  /* related files:
+  SnowInterception.c brent.h constants.h settings.h massenergy.h data.h
+  Calendar.h snow.h functions.h DHSVMChannel.h getinit.h channel.h channel_grid.h
+
+  RadiationBalance.c settings.h data.h Calendar.h  DHSVMerror.h massenergy.h constants.h
+
+  InterceptionStorage.c settings.h data.h Calendar.h DHSVMerror.h massenergy.h constants.h
+
+  SnowMelt.c brent.h constants.h settings.h massenergy.h data.h Calendar.h
+  functions.h DHSVMChannel.h getinit.h channel.h channel_grid.h snow.h
+  */
 
 #ifndef NO_SNOW
 
@@ -377,6 +396,9 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
      above the ground/soil surface.  Also calculate the total amount of
      evapotranspiration from the vegetation */
 
+  /* related files: EvapoTranspiration.c settings.h data.h Calendar.h DHSVMerror.h massenergy.h constants.h
+                    SoilEvaporation.c settings.h DHSVMerror.h massenergy.h data.h Calendar.h constants.h
+  */
   if (VType->OverStory == TRUE) {
     Rp = VISFRACT * LocalRad.NetShort[0];
     NetRadiation =
@@ -487,6 +509,8 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
   /* SurfaceWater is rain falling on the hillslope +
      snowmelt on the hillslope (there is no snowmelt on the channel) +
      existing IExcess */
+  /* related files: independant
+  */
   SurfaceWater = (PercArea * LocalPrecip->RainFall) +
     ((1. - (LocalNetwork->RoadArea)/(DX*DY)) * LocalSnow->Outflow) +
     LocalSoil->IExcess;
@@ -494,11 +518,19 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
   /* RoadWater is rain falling on the road surface +
      snowmelt on the road surface + existing Road IExcess
      (Existing road IExcess = 0). WORK IN PROGRESS*/
+  /* related files: independant
+  */
   RoadWater = (LocalNetwork->RoadArea/(DX*DY) *
 	       (LocalPrecip->RainFall + LocalSnow->Outflow)) +
     LocalNetwork->IExcess;
 
 
+  /* Infiltration module
+  *  related files or modules: SurfaceWater, RoadWater,UnsaturatedFlow.c
+								constants.h settings.h functions.h
+								data.h Calendar.h DHSVMChannel.h getinit.h channel.h
+								channel_grid.h soilmoisture.h
+  */
   if(InfiltOption == STATIC)
     MaxInfiltration = (1. - VType->ImpervFrac) * PercArea * SType->MaxInfiltrationRate * Dt;
 
@@ -565,6 +597,10 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
   }
 
   /*Add water that hits the channel network to the channel network */
+  /* related files: channel_grid.c channel_grid.h channel.h settings.h
+					data.h Calendar.h tableio.h errorhandler.h DHSVMChannel.h
+					getinit.h
+  */
   if (ChannelWater > 0.){
     channel_grid_inc_inflow(ChannelData->stream_map, x, y, ChannelWater * DX * DY);
     LocalSoil->ChannelInt += ChannelWater;
@@ -572,9 +608,10 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
 
   /* Calculate unsaturated soil water movement, and adjust soil water
      table depth */
-
-//  UnsaturatedFlow(Dt, DX, DY, Infiltration, RoadbedInfiltration,
-//		  LocalSoil->SatFlow, SType->NLayers,
+  /* related files: UnsaturatedFlow.c constants.h settings.h functions.h
+					data.h Calendar.h DHSVMChannel.h getinit.h channel.h
+					channel_grid.h soilmoisture.h
+  */
 //		  LocalSoil->Depth, LocalNetwork->Area, VType->RootDepth,
 //		  SType->Ks, SType->PoreDist, SType->Porosity, SType->FCap,
 //		  LocalSoil->Perc, LocalNetwork->PercArea,
@@ -611,23 +648,61 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
       Roughness = Z0_GROUND;
     }
 
-    SensibleHeatFlux(y, x, Dt, LowerRa, Reference, 0.0f, Roughness,
+	/* Calculate sensible heat flux
+	related file: SensibleHeatFlux.c settings.h data.h Calendar.h
+				  DHSVMerror.h massenergy.h constants.h brent.h functions.h
+				  DHSVMChannel.h getinit.h channel.h channel_grid.h
+	*/
+//    SensibleHeatFlux(y, x, Dt, LowerRa, Reference, 0.0f, Roughness,
+//		     LocalMet, LocalRad.PixelNetShort, LocalRad.PixelLongIn,
+//		     MoistureFlux, SType->NLayers, VType->RootDepth,
+//		     SType, MeltEnergy, LocalSoil);
+
+    CSensibleHeatFlux *cSensibleHeatFlux = new CSensibleHeatFlux();
+    cSensibleHeatFlux->init(y, x, Dt, LowerRa, Reference, 0.0f, Roughness,
 		     LocalMet, LocalRad.PixelNetShort, LocalRad.PixelLongIn,
 		     MoistureFlux, SType->NLayers, VType->RootDepth,
 		     SType, MeltEnergy, LocalSoil);
+	cSensibleHeatFlux->execute();
+    delete cSensibleHeatFlux;
     Tsurf = LocalSoil->TSurf;
+
+	/* Calculate long wave balance
+	related files: RadiationBalance.c settings.h data.h Calendar.h
+				   DHSVMerror.h massenergy.h constants.h
+	*/
     LongwaveBalance(Options, VType->OverStory, VType->Fract[0], LocalMet->Lin,
 		    LocalVeg->Tcanopy, Tsurf, &LocalRad);
   }
   else
-    NoSensibleHeatFlux(Dt, LocalMet, MoistureFlux, LocalSoil);
+
+    /* Calculate No sensible heat flux
+	related files: SensibleHeatFlux.c settings.h data.h Calendar.h
+					DHSVMerror.h massenergy.h constants.h brent.h functions.h
+					DHSVMChannel.h getinit.h channel.h channel_grid.h
+	*/
+//    NoSensibleHeatFlux(Dt, LocalMet, MoistureFlux, LocalSoil);
+
+
+{
+    CNoSensibleHeatFlux *cNoSensibleHeatFlux = new CNoSensibleHeatFlux();
+    cNoSensibleHeatFlux->init(Dt, LocalMet, MoistureFlux, LocalSoil);
+    cNoSensibleHeatFlux->execute();
+    delete cNoSensibleHeatFlux;
+}
 
 #endif
 
   /* add the components of the radiation balance for the current pixel to
      the total */
+  /* related files: AggregateRadiation.c settings.h data.h Calendar.h massenergy.h
+  */
   AggregateRadiation(MaxVegLayers, VType->NVegLayers, &LocalRad, TotalRad);
   /* For RBM model, save the energy fluxes for outputs */
+  /* related files: channel_grid.c channel_grid.h channel.h settings.h
+					data.h Calendar.h tableio.h errorhandler.h DHSVMChannel.h
+					getinit.h
+  */
   if (Options->StreamTemp) {
     if (channel_grid_has_channel(ChannelData->stream_map, x, y))
       channel_grid_inc_other(ChannelData->stream_map, x, y, &LocalRad, LocalMet, skyview[y][x]);
