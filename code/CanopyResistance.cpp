@@ -78,6 +78,12 @@ float CanopyResistance(float LAI, float RsMin, float RsMax, float Rpc,
     MoistFactor = 1.0;
 
   Resistance = TFactor * VpdFactor * RpFactor * MoistFactor * RsMin / LAI;
+  
+  /*   It seems that an additional parameter cj, i.e., the appropriate ratio of
+ *   total LAI to projecte (one sided) LaI. As it assumes that the leaves contribute
+ *   in parallel.Thus,
+ Resistance = TFactor * VpdFactor * RpFactor * MoistFactor * RsMin / (cj*LAI);
+ zhang ling 2015/11/21*/
 
   return Resistance;
 
