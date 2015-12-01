@@ -36,7 +36,7 @@
 #include "CEvapoTranspiration.h"
 #include "CUnsaturatedFlow.h"
 #include "CSensibleHeatFlux.h"
-
+#include "CAggregateRadiation.h"
 #include "CNoSensibleHeatFlux.h"
 
 /*****************************************************************************
@@ -697,7 +697,13 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
      the total */
   /* related files: AggregateRadiation.c settings.h data.h Calendar.h massenergy.h
   */
-  AggregateRadiation(MaxVegLayers, VType->NVegLayers, &LocalRad, TotalRad);
+//  AggregateRadiation(MaxVegLayers, VType->NVegLayers, &LocalRad, TotalRad);
+
+  CAggregateRadiation *cAggregateRadiation = new CAggregateRadiation();
+  cAggregateRadiation->init(MaxVegLayers, VType->NVegLayers, &LocalRad, TotalRad);
+  cAggregateRadiation->execute();
+  delete cAggregateRadiation;
+
   /* For RBM model, save the energy fluxes for outputs */
   /* related files: channel_grid.c channel_grid.h channel.h settings.h
 					data.h Calendar.h tableio.h errorhandler.h DHSVMChannel.h
