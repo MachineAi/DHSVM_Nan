@@ -50,6 +50,8 @@
 		<Unit filename="AggregateRadiation.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="CAggregateRadiation.cpp" />
+		<Unit filename="CAggregateRadiation.h" />
 		<Unit filename="CEvapoTranspiration.cpp" />
 		<Unit filename="CEvapoTranspiration.h" />
 		<Unit filename="CNoSensibleHeatFlux.cpp" />
