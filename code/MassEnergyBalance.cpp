@@ -38,6 +38,8 @@
 #include "CSensibleHeatFlux.h"
 #include "CAggregateRadiation.h"
 #include "CNoSensibleHeatFlux.h"
+#include "CSoilEvaporation.h"
+
 
 /*****************************************************************************
   Function name: MassEnergyBalance()
@@ -458,13 +460,26 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
       NetRadiation =
 	LocalRad.NetShort[0] + LocalRad.LongIn[0] - LocalRad.LongOut[0];
 
-    LocalEvap->EvapSoil =
-      SoilEvaporation(Dt, LocalMet->Tair, LocalMet->Slope, LocalMet->Gamma,
+//    LocalEvap->EvapSoil =
+//      SoilEvaporation(Dt, LocalMet->Tair, LocalMet->Slope, LocalMet->Gamma,
+//		      LocalMet->Lv, LocalMet->AirDens, LocalMet->Vpd,
+//		      NetRadiation, LowerRa, MoistureFlux, SType->Porosity[0],
+//		      SType->Ks[0], SType->Press[0], SType->PoreDist[0],
+//		      VType->RootDepth[0], &(LocalSoil->Moist[0]),
+//		      LocalNetwork->Adjust[0]);
+{
+    CSoilEvaporation * cSoilEvaporation = new CSoilEvaporation();
+    cSoilEvaporation->init(Dt, LocalMet->Tair, LocalMet->Slope, LocalMet->Gamma,
 		      LocalMet->Lv, LocalMet->AirDens, LocalMet->Vpd,
 		      NetRadiation, LowerRa, MoistureFlux, SType->Porosity[0],
 		      SType->Ks[0], SType->Press[0], SType->PoreDist[0],
 		      VType->RootDepth[0], &(LocalSoil->Moist[0]),
-		      LocalNetwork->Adjust[0]);
+		      LocalNetwork->Adjust[0], &(LocalEvap->EvapSoil));
+    cSoilEvaporation->execute();
+    delete cSoilEvaporation;
+}
+
+
   }
   else
     LocalEvap->EvapSoil = 0.0;

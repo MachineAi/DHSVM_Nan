@@ -64,6 +64,8 @@
 		<Unit filename="CSnowInterception.h" />
 		<Unit filename="CSnowMelt.cpp" />
 		<Unit filename="CSnowMelt.h" />
+		<Unit filename="CSoilEvaporation.cpp" />
+		<Unit filename="CSoilEvaporation.h" />
 		<Unit filename="CUnsaturatedFlow.cpp" />
 		<Unit filename="CUnsaturatedFlow.h" />
 		<Unit filename="CalcAerodynamic.cpp">
