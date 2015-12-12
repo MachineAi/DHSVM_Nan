@@ -41,6 +41,7 @@
 #include "CSoilEvaporation.h"
 #include "CLeafDripImpact.h"
 #include "CRainfallImpact.h"
+#include "CSurfaceWater.h"
 
 /*****************************************************************************
   Function name: MassEnergyBalance()
@@ -537,9 +538,14 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
      existing IExcess */
   /* related files: independant
   */
-  SurfaceWater = (PercArea * LocalPrecip->RainFall) +
-    ((1. - (LocalNetwork->RoadArea)/(DX*DY)) * LocalSnow->Outflow) +
-    LocalSoil->IExcess;
+//  SurfaceWater = (PercArea * LocalPrecip->RainFall) +
+//    ((1. - (LocalNetwork->RoadArea)/(DX*DY)) * LocalSnow->Outflow) +
+//    LocalSoil->IExcess;
+    CSurfaceWater * cSurfaceWater = new CSurfaceWater();
+    //float m_PercArea, float m_Rainfall, float m_RoadArea, float m_DX, float m_DY, float m_Outflow, float m_IExcess
+    cSurfaceWater->init(PercArea,LocalPrecip->RainFall,LocalNetwork->RoadArea, DX, DY, LocalSnow->Outflow, LocalSoil->IExcess );
+    cSurfaceWater->execute();
+    cSurfaceWater->query(&SurfaceWater);
 
   /* RoadWater is rain falling on the road surface +
      snowmelt on the road surface + existing Road IExcess
