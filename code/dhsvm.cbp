@@ -62,6 +62,8 @@
 		<Unit filename="CRadiationBalance.h" />
 		<Unit filename="CRainFallImpact.cpp" />
 		<Unit filename="CRainFallImpact.h" />
+		<Unit filename="CRoadWater.cpp" />
+		<Unit filename="CRoadWater.h" />
 		<Unit filename="CSensibleHeatFlux.cpp" />
 		<Unit filename="CSensibleHeatFlux.h" />
 		<Unit filename="CSnowInterception.cpp" />

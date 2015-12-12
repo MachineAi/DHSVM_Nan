@@ -42,6 +42,7 @@
 #include "CLeafDripImpact.h"
 #include "CRainfallImpact.h"
 #include "CSurfaceWater.h"
+#include "CRoadWater.h"
 
 /*****************************************************************************
   Function name: MassEnergyBalance()
@@ -552,10 +553,14 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
      (Existing road IExcess = 0). WORK IN PROGRESS*/
   /* related files: independant
   */
-  RoadWater = (LocalNetwork->RoadArea/(DX*DY) *
-	       (LocalPrecip->RainFall + LocalSnow->Outflow)) +
-    LocalNetwork->IExcess;
-
+//  RoadWater = (LocalNetwork->RoadArea/(DX*DY) *
+//	       (LocalPrecip->RainFall + LocalSnow->Outflow)) +
+//    LocalNetwork->IExcess;
+    CRoadWater * cRoadWater = new CRoadWater();
+    cRoadWater->init(LocalNetwork->RoadArea, DX, DY, LocalPrecip->RainFall, LocalSnow->Outflow, LocalNetwork->IExcess);
+    cRoadWater->execute();
+    cRoadWater->query(&RoadWater);
+    delete cRoadWater;
 
   /* Infiltration module
   *  related files or modules: SurfaceWater, RoadWater,UnsaturatedFlow.c
