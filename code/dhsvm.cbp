@@ -54,6 +54,8 @@
 		<Unit filename="CAggregateRadiation.h" />
 		<Unit filename="CEvapoTranspiration.cpp" />
 		<Unit filename="CEvapoTranspiration.h" />
+		<Unit filename="CLeafDripImpact.cpp" />
+		<Unit filename="CLeafDripImpact.h" />
 		<Unit filename="CNoSensibleHeatFlux.cpp" />
 		<Unit filename="CNoSensibleHeatFlux.h" />
 		<Unit filename="CRadiationBalance.cpp" />

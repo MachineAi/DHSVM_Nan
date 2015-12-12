@@ -39,6 +39,7 @@
 #include "CAggregateRadiation.h"
 #include "CNoSensibleHeatFlux.h"
 #include "CSoilEvaporation.h"
+#include "CLeafDripImpact.h"
 
 
 /*****************************************************************************
@@ -184,38 +185,43 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
      by weighting scheme */
   /* related files: independent module
   */
-  if (VType->OverStory){
-    /* staring at 1 assumes the overstory height > 0.5 m */
-    for (i = 1; i <= 17; i++ ) {
-      if (VType->Height[0] < CanopyHeight[i]) {
-        LD_FallVelocity = ((VType->Height[0] - CanopyHeight[i-1])
-			   *FallVelocity[i] +
-			   (CanopyHeight[i] - VType->Height[0])*FallVelocity[i-1]) /
-	  (CanopyHeight[i] - CanopyHeight[i-1]);
-      }
-    }
-    if (VType->UnderStory) {
-      /* ending at 16 assumes the understory height < 16 m */
-      for (i = 0; i <= 16; i++) {
-	if (VType->Height[1] < CanopyHeight[i]) {
-	  LD_FallVelocity = ((VType->Height[1] - CanopyHeight[i])*FallVelocity[i] +
-			     (CanopyHeight[i+1] - VType->Height[1])*FallVelocity[i-1]) /
-	    (CanopyHeight[i+1] - CanopyHeight[i]);
-	}
-      }
-    }
-  }
-  else if (VType->UnderStory) {
-    /* ending at 16 assumes the understory height < 16 m */
-    for (i = 0; i <= 16; i++) {
-      if (VType->Height[0] < CanopyHeight[i]) {
-	LD_FallVelocity = ((VType->Height[0] - CanopyHeight[i])*FallVelocity[i] +
-			   (CanopyHeight[i+1] - VType->Height[0])*FallVelocity[i-1]) /
-	  (CanopyHeight[i+1] - CanopyHeight[i]);
-      }
-    }
-  }
-  else LD_FallVelocity = 0;
+//  if (VType->OverStory){
+//    /* staring at 1 assumes the overstory height > 0.5 m */
+//    for (i = 1; i <= 17; i++ ) {
+//      if (VType->Height[0] < CanopyHeight[i]) {
+//        LD_FallVelocity = ((VType->Height[0] - CanopyHeight[i-1])
+//			   *FallVelocity[i] +
+//			   (CanopyHeight[i] - VType->Height[0])*FallVelocity[i-1]) /
+//	  (CanopyHeight[i] - CanopyHeight[i-1]);
+//      }
+//    }
+//    if (VType->UnderStory) {
+//      /* ending at 16 assumes the understory height < 16 m */
+//      for (i = 0; i <= 16; i++) {
+//	if (VType->Height[1] < CanopyHeight[i]) {
+//	  LD_FallVelocity = ((VType->Height[1] - CanopyHeight[i])*FallVelocity[i] +
+//			     (CanopyHeight[i+1] - VType->Height[1])*FallVelocity[i-1]) /
+//	    (CanopyHeight[i+1] - CanopyHeight[i]);
+//	}
+//      }
+//    }
+//  }
+//  else if (VType->UnderStory) {
+//    /* ending at 16 assumes the understory height < 16 m */
+//    for (i = 0; i <= 16; i++) {
+//      if (VType->Height[0] < CanopyHeight[i]) {
+//	LD_FallVelocity = ((VType->Height[0] - CanopyHeight[i])*FallVelocity[i] +
+//			   (CanopyHeight[i+1] - VType->Height[0])*FallVelocity[i-1]) /
+//	  (CanopyHeight[i+1] - CanopyHeight[i]);
+//      }
+//    }
+//  }
+//  else LD_FallVelocity = 0;
+
+    CLeafDripImpact * cLeafDripImpact = new CLeafDripImpact();
+    cLeafDripImpact->init(VType, CanopyHeight, FallVelocity);
+    cLeafDripImpact->execute();
+    cLeafDripImpact->query(&LD_FallVelocity);
 
 
   /* RainFall impact */
