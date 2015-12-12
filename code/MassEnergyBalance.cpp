@@ -40,7 +40,7 @@
 #include "CNoSensibleHeatFlux.h"
 #include "CSoilEvaporation.h"
 #include "CLeafDripImpact.h"
-
+#include "CRainfallImpact.h"
 
 /*****************************************************************************
   Function name: MassEnergyBalance()
@@ -228,27 +228,32 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
   /* 3600 is conversion factor (number of seconds per hour) */
   /* related files: independant
   */
-  if (LocalPrecip->RainFall > 0.) {
-    RainfallIntensity = LocalPrecip->RainFall * (1./MMTOM) * (3600./Dt);
+//  if (LocalPrecip->RainFall > 0.) {
+//    RainfallIntensity = LocalPrecip->RainFall * (1./MMTOM) * (3600./Dt);
+//
+//    /* Momentum is later weighted with the overstory/understory fraction */
+//    if (RainfallIntensity < 10.)
+//      MS_Index = 0;
+//    else if (RainfallIntensity >= 10. && RainfallIntensity < 100.)
+//      MS_Index = floor((RainfallIntensity + 49)/50);
+//    else
+//      MS_Index = 3;
+//
+//    /* Eq. 1, Wicks and Bathurst (1996) */
+//    MS_Rainfall = alpha[MS_Index] * pow(RainfallIntensity, beta[MS_Index]);
+//
+//    /* Calculating mediam raindrop diameter after Laws and Parsons (1943) */
+//    LocalPrecip->Dm =  0.00124 * pow((double)RainfallIntensity, 0.182);
+//  }
+//  else {
+//    MS_Rainfall = 0;
+//    LocalPrecip->Dm = LEAF_DRIP_DIA;
+//  }
 
-    /* Momentum is later weighted with the overstory/understory fraction */
-    if (RainfallIntensity < 10.)
-      MS_Index = 0;
-    else if (RainfallIntensity >= 10. && RainfallIntensity < 100.)
-      MS_Index = floor((RainfallIntensity + 49)/50);
-    else
-      MS_Index = 3;
-
-    /* Eq. 1, Wicks and Bathurst (1996) */
-    MS_Rainfall = alpha[MS_Index] * pow(RainfallIntensity, beta[MS_Index]);
-
-    /* Calculating mediam raindrop diameter after Laws and Parsons (1943) */
-    LocalPrecip->Dm =  0.00124 * pow((double)RainfallIntensity, 0.182);
-  }
-  else {
-    MS_Rainfall = 0;
-    LocalPrecip->Dm = LEAF_DRIP_DIA;
-  }
+    CRainfallImpact * cRainfallImpact = new CRainfallImpact();
+    cRainfallImpact->init(LocalPrecip->RainFall, Dt);
+    cRainfallImpact->execute();
+    cRainfallImpact->query(&MS_Rainfall, &(LocalPrecip->Dm));
 
   /* calculate the amount of interception storage, and the amount of
      throughfall.  Of course this only needs to be done if there is

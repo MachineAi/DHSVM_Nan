@@ -60,6 +60,8 @@
 		<Unit filename="CNoSensibleHeatFlux.h" />
 		<Unit filename="CRadiationBalance.cpp" />
 		<Unit filename="CRadiationBalance.h" />
+		<Unit filename="CRainFallImpact.cpp" />
+		<Unit filename="CRainFallImpact.h" />
 		<Unit filename="CSensibleHeatFlux.cpp" />
 		<Unit filename="CSensibleHeatFlux.h" />
 		<Unit filename="CSnowInterception.cpp" />
