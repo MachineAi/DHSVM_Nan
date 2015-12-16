@@ -43,6 +43,7 @@
 #include "CRainfallImpact.h"
 #include "CSurfaceWater.h"
 #include "CRoadWater.h"
+#include "CInterceptionStorage.h"
 
 /*****************************************************************************
   Function name: MassEnergyBalance()
@@ -224,6 +225,7 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
     cLeafDripImpact->init(VType, CanopyHeight, FallVelocity);
     cLeafDripImpact->execute();
     cLeafDripImpact->query(&LD_FallVelocity);
+    delete cLeafDripImpact;
 
 
   /* RainFall impact */
@@ -256,6 +258,7 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
     cRainfallImpact->init(LocalPrecip->RainFall, Dt);
     cRainfallImpact->execute();
     cRainfallImpact->query(&MS_Rainfall, &(LocalPrecip->Dm));
+    delete cRainfallImpact;
 
   /* calculate the amount of interception storage, and the amount of
      throughfall.  Of course this only needs to be done if there is
@@ -319,11 +322,20 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
     LocalVeg->Tcanopy = LocalMet->Tair;
     LocalSnow->CanopyVaporMassFlux = 0.0;
     LocalPrecip->TempIntStorage = 0.0;
-    InterceptionStorage(VType->NVegLayers, NVegLActual, VType->MaxInt,
+//    InterceptionStorage(VType->NVegLayers, NVegLActual, VType->MaxInt,
+//			VType->Fract, LocalPrecip->IntRain,
+//			&(LocalPrecip->RainFall), &(LocalPrecip->MomentSq),
+//			VType->Height, VType->UnderStory, Dt, MS_Rainfall,
+//			LD_FallVelocity);
+    CInterceptionStorage * cInterceptionStorage = new CInterceptionStorage();
+    cInterceptionStorage->init(VType->NVegLayers, NVegLActual, VType->MaxInt,
 			VType->Fract, LocalPrecip->IntRain,
 			&(LocalPrecip->RainFall), &(LocalPrecip->MomentSq),
 			VType->Height, VType->UnderStory, Dt, MS_Rainfall,
 			LD_FallVelocity);
+    cInterceptionStorage->execute();
+    delete cInterceptionStorage;
+
   }
   else {
     /* If no vegetation, kinetic energy is all due to direct precipitation. */
@@ -547,6 +559,7 @@ void MassEnergyBalance(OPTIONSTRUCT *Options, int y, int x, float SineSolarAltit
     cSurfaceWater->init(PercArea,LocalPrecip->RainFall,LocalNetwork->RoadArea, DX, DY, LocalSnow->Outflow, LocalSoil->IExcess );
     cSurfaceWater->execute();
     cSurfaceWater->query(&SurfaceWater);
+    delete cSurfaceWater;
 
   /* RoadWater is rain falling on the road surface +
      snowmelt on the road surface + existing Road IExcess
