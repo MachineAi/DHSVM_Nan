@@ -1,6 +1,14 @@
 #include "CRainfallImpact.h"
 #include "constants.h"
 #include "math.h"
+
+
+
+  const float CRainfallImpact::alpha_m[4] = {2.69e-8,3.75e-8,6.12e-8,11.75e-8}; /* empirical coefficient
+				for rainfall momentum after Wicks and Bathurst (1996) */
+  const float CRainfallImpact::beta_m[4] = {1.6896,1.5545,1.4242,1.2821};  /* empirical coefficient
+				for rainfall momentum after Wicks and Bathurst (1996) */
+
 CRainfallImpact::CRainfallImpact()
 {
 
@@ -30,7 +38,7 @@ void CRainfallImpact::execute()
       MS_Index = 3;
 
     /* Eq. 1, Wicks and Bathurst (1996) */
-    MS_Rainfall = alpha[MS_Index] * pow(RainfallIntensity, beta[MS_Index]);
+    MS_Rainfall = alpha_m[MS_Index] * pow(RainfallIntensity, beta_m[MS_Index]);
 
     /* Calculating mediam raindrop diameter after Laws and Parsons (1943) */
     Dm =  0.00124 * pow((double)RainfallIntensity, 0.182);
